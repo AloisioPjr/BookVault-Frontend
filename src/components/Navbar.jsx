@@ -8,7 +8,7 @@ const Navbar = () => {
   const password = localStorage.getItem("password");
   const isLoggedIn = email && password;
 
-  const isAdmin = email === "admin@bookvault.dev"; // or dynamically check if needed
+  const isAdmin = email === "admin@bookvault.dev";
 
   const handleLogout = async () => {
     try {
@@ -24,26 +24,37 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 text-white px-6 py-3 flex justify-between items-center">
-      <div className="space-x-4">
-        {isLoggedIn && (
-          <>
-            <Link to="/books" className="hover:underline">Books</Link>
-            <Link to="/loans" className="hover:underline">My Loans</Link>
-            <Link to="/reservations" className="hover:underline">My Reservations</Link>
-            {isAdmin && <Link to="/admin" className="hover:underline">Admin</Link>}
-          </>
-        )}
-      </div>
-      <div>
-        {isLoggedIn && (
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 px-3 py-1 rounded hover:bg-red-500"
-          >
-            Logout
-          </button>
-        )}
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top px-4 shadow">
+      <div className="container-fluid">
+        <Link className="navbar-brand fw-bold" to="/books">🕮 BookVault</Link>
+
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            {isLoggedIn && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/books">Books</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/loans">My Loans</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/reservations">My Reservations</Link>
+                </li>
+                {isAdmin && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/admin">Admin</Link>
+                  </li>
+                )}
+              </>
+            )}
+          </ul>
+          {isLoggedIn && (
+            <button onClick={handleLogout} className="btn btn-outline-light btn-sm">
+              Logout
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -66,41 +66,109 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Admin Panel – Book Management</h2>
+    <div className="d-flex justify-content-center mt-5 pt-4">
+      <div className="container" style={{ maxWidth: "960px" }}>
+        <h2 className="mb-4 fw-bold text-center">Admin Panel – Book Management</h2>
 
-      <form onSubmit={handleSubmit} className="mb-6 space-y-2">
-        <input type="text" name="title" placeholder="Title" value={form.title} onChange={handleChange} required className="w-full border p-2 rounded" />
-        <input type="text" name="author" placeholder="Author" value={form.author} onChange={handleChange} required className="w-full border p-2 rounded" />
-        <input type="text" name="isbn" placeholder="ISBN" value={form.isbn} onChange={handleChange} required className="w-full border p-2 rounded" />
-        <input type="text" name="genre" placeholder="Genre" value={form.genre} onChange={handleChange} required className="w-full border p-2 rounded" />
-        <input type="number" name="copies_available" min="1" placeholder="Copies" value={form.copies_available} onChange={handleChange} required className="w-full border p-2 rounded" />
-        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
-          {editingId ? "Update Book" : "Add Book"}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} className="mb-5 row g-3">
+          <div className="col-md-6">
+            <input
+              type="text"
+              name="title"
+              className="form-control"
+              placeholder="Title"
+              value={form.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-6">
+            <input
+              type="text"
+              name="author"
+              className="form-control"
+              placeholder="Author"
+              value={form.author}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-6">
+            <input
+              type="text"
+              name="isbn"
+              className="form-control"
+              placeholder="ISBN"
+              value={form.isbn}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              name="genre"
+              className="form-control"
+              placeholder="Genre"
+              value={form.genre}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-2">
+            <input
+              type="number"
+              name="copies_available"
+              className="form-control"
+              placeholder="Copies"
+              min="1"
+              value={form.copies_available}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-12 text-end">
+            <button type="submit" className="btn btn-success">
+              {editingId ? "Update Book" : "Add Book"}
+            </button>
+          </div>
+        </form>
 
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && <p className="text-danger mb-4 text-center">{error}</p>}
 
-      <ul className="space-y-4">
-        {books.map(book => (
-          <li key={book.id} className="border p-4 rounded shadow">
-            <p><strong>{book.title}</strong> by {book.author}</p>
-            <p>ISBN: {book.isbn} | Genre: {book.genre}</p>
-            <p>Available: {book.copies_available}</p>
-            <div className="mt-2 space-x-2">
-              <button onClick={() => handleEdit(book)} className="bg-blue-500 text-white px-3 py-1 rounded">
-                Edit
-              </button>
-              <button onClick={() => handleDelete(book.id)} className="bg-red-600 text-white px-3 py-1 rounded">
-                Delete
-              </button>
+        <div className="row g-3">
+          {books.map(book => (
+            <div key={book.id} className="col-md-4">
+              <div className="card p-3 shadow-sm h-100">
+                <h5 className="card-title">{book.title}</h5>
+                <p className="card-text">
+                  <strong>Author:</strong> {book.author}<br />
+                  <strong>Genre:</strong> {book.genre}<br />
+                  <strong>ISBN:</strong> {book.isbn}<br />
+                  <strong>Copies:</strong> {book.copies_available}
+                </p>
+                <div className="d-flex justify-content-between">
+                  <button
+                    onClick={() => handleEdit(book)}
+                    className="btn btn-primary btn-sm"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(book.id)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
     </div>
   );
+
 };
 
 export default AdminPanel;

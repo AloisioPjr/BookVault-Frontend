@@ -26,22 +26,22 @@ const BookList = () => {
       {books.length === 0 ? (
         <p>No books available.</p>
       ) : (
-        <div className="grid gap-4">
+        <div className="row g-3">
           {books.map(book => (
-            <div key={book.id} className="border p-4 rounded shadow">
-              <h3 className="text-lg font-semibold">{book.title}</h3>
-              <p>Author: {book.author}</p>
-              <p>Genre: {book.genre}</p>
-              <p>Available Copies: {book.copies_available}</p>
-              <Link
-                to={`/books/${book.id}`}
-                className="text-blue-600 underline mt-2 inline-block"
-              >
-                View Details
-              </Link>
+            <div key={book.id} className="col-md-4">
+              <div className="card p-3 shadow-sm h-100">
+                <h5 className="card-title">{book.title}</h5>
+                <p className="card-text">Author: {book.author}</p>
+                <p className="card-text">Genre: {book.genre}</p>
+                <p className="card-text">Available: {book.copies_available}</p>
+                <Link to={`/books/${book.id}`} className="btn btn-link p-0">
+                  View Details
+                </Link>
+              </div>
             </div>
           ))}
         </div>
+
       )}
     </div>
   );
