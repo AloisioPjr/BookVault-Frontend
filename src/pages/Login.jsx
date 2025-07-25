@@ -12,26 +12,26 @@ const Login = () => {
   const [error, setError] = useState("");
 
   // Handles form submission and login request
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    try {
-      // Store credentials
-      localStorage.setItem("email", email);
-      localStorage.setItem("password", password);
+  try {
+    // Store credentials
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", password);
 
-      // Test login by hitting protected route
-      const response = await axios.get("/books");
+    // Test login by hitting protected route
+    const response = await axios.get("/books");
 
-      console.log("Login success:", response.data);
-      navigate("/books");
-    } catch (err) {
-      localStorage.removeItem("email");
-      localStorage.removeItem("password");
-      setError("Login failed: Invalid email or password");
-    }
-  };
+    console.log("Login success:", response.data);
+    navigate("/books");
+  } catch (err) {
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+    setError("Login failed: Invalid email or password");
+  }
+};
 
 
   return (
