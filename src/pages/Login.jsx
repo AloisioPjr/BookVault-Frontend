@@ -13,28 +13,26 @@ const Login = () => {
 
   // Handles form submission and login request
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent page reload
-    setError(""); // Clear previous errors
+    e.preventDefault();
+    setError("");
 
     try {
-      // Send login request to API
-      const response = await axios.post("/login", {
-        user: { email, password },
-      });
-
-      //  Store credentials locally for reuse (used for basic auth headers)
+      // Store credentials
       localStorage.setItem("email", email);
       localStorage.setItem("password", password);
 
-      console.log("Login success:", response.data);
+      // Test login by hitting protected route
+      const response = await axios.get("/books");
 
-      // Navigate to the books page upon successful login
+      console.log("Login success:", response.data);
       navigate("/books");
     } catch (err) {
-      // Show error message if login fails
-      setError(err.response?.data?.error || "Login failed");
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+      setError("Login failed: Invalid email or password");
     }
   };
+
 
   return (
     <div className="p-4 max-w-md mx-auto">
