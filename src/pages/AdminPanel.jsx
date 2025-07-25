@@ -1,7 +1,9 @@
+// Import necessary hooks and modules
 import { useEffect, useState } from "react";
-import axios from "../api/axios";
-import { useNavigate } from "react-router-dom";
+import axios from "../api/axios"; // Custom Axios instance
+import { useNavigate } from "react-router-dom"; // For redirecting unauthorized users
 
+// Default form values for creating or editing a book
 const emptyBook = {
   title: "",
   author: "",
@@ -11,12 +13,13 @@ const emptyBook = {
 };
 
 const AdminPanel = () => {
-  const [books, setBooks] = useState([]);
-  const [form, setForm] = useState(emptyBook);
-  const [editingId, setEditingId] = useState(null);
-  const [error, setError] = useState("");
+  const [books, setBooks] = useState([]);        // List of books in the system
+  const [form, setForm] = useState(emptyBook);   // Form data for add/edit
+  const [editingId, setEditingId] = useState(null); // ID of the book being edited
+  const [error, setError] = useState("");         // Error messages for UI
   const navigate = useNavigate();
 
+  // Fetch list of books from API
   const fetchBooks = () => {
     axios.get("/books")
       .then(res => setBooks(res.data))
@@ -26,22 +29,30 @@ const AdminPanel = () => {
       });
   };
 
+  // Load book list on component mount
   useEffect(() => {
     fetchBooks();
   }, []);
 
+  // Handle input field changes in the form
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Submit form to create or update a book
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       if (editingId) {
+        // Update existing book
         await axios.put(`/books/${editingId}`, { book: form });
       } else {
+        // Add new book
         await axios.post("/books", { book: form });
       }
+
+      // Reset form state after submission
       setForm(emptyBook);
       setEditingId(null);
       fetchBooks();
@@ -50,13 +61,16 @@ const AdminPanel = () => {
     }
   };
 
+  // Populate form fields with selected book data for editing
   const handleEdit = (book) => {
     setForm(book);
     setEditingId(book.id);
   };
 
+  // Delete book with confirmation
   const handleDelete = async (id) => {
     if (!confirm("Are you sure?")) return;
+
     try {
       await axios.delete(`/books/${id}`);
       fetchBooks();
@@ -70,7 +84,9 @@ const AdminPanel = () => {
       <div className="container" style={{ maxWidth: "960px" }}>
         <h2 className="mb-4 fw-bold text-center">Admin Panel – Book Management</h2>
 
+        {/* Book Form */}
         <form onSubmit={handleSubmit} className="mb-5 row g-3">
+          {/* Title */}
           <div className="col-md-6">
             <input
               type="text"
@@ -82,6 +98,8 @@ const AdminPanel = () => {
               required
             />
           </div>
+
+          {/* Author */}
           <div className="col-md-6">
             <input
               type="text"
@@ -93,6 +111,8 @@ const AdminPanel = () => {
               required
             />
           </div>
+
+          {/* ISBN */}
           <div className="col-md-6">
             <input
               type="text"
@@ -104,6 +124,8 @@ const AdminPanel = () => {
               required
             />
           </div>
+
+          {/* Genre */}
           <div className="col-md-4">
             <input
               type="text"
@@ -115,6 +137,8 @@ const AdminPanel = () => {
               required
             />
           </div>
+
+          {/* Copies Available */}
           <div className="col-md-2">
             <input
               type="number"
@@ -127,6 +151,8 @@ const AdminPanel = () => {
               required
             />
           </div>
+
+          {/* Submit Button */}
           <div className="col-12 text-end">
             <button type="submit" className="btn btn-success">
               {editingId ? "Update Book" : "Add Book"}
@@ -134,8 +160,10 @@ const AdminPanel = () => {
           </div>
         </form>
 
+        {/* Error Message */}
         {error && <p className="text-danger mb-4 text-center">{error}</p>}
 
+        {/* Book List */}
         <div className="row g-3">
           {books.map(book => (
             <div key={book.id} className="col-md-4">
@@ -148,12 +176,15 @@ const AdminPanel = () => {
                   <strong>Copies:</strong> {book.copies_available}
                 </p>
                 <div className="d-flex justify-content-between">
+                  {/* Edit Button */}
                   <button
                     onClick={() => handleEdit(book)}
                     className="btn btn-primary btn-sm"
                   >
                     Edit
                   </button>
+
+                  {/* Delete Button */}
                   <button
                     onClick={() => handleDelete(book.id)}
                     className="btn btn-danger btn-sm"
@@ -168,7 +199,6 @@ const AdminPanel = () => {
       </div>
     </div>
   );
-
 };
 
 export default AdminPanel;
