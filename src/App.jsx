@@ -13,7 +13,7 @@ import BookDetail from "./pages/BookDetail";
 import MyLoans from "./pages/MyLoans";
 import MyReservations from "./pages/MyReservations";
 import AdminPanel from "./pages/AdminPanel";
-
+import Welcome from "./pages/Welcome";
 // Root component of the React app
 function App() {
   return (
@@ -24,6 +24,8 @@ function App() {
       
       {/* Define application routes */}
       <Routes>
+        {/* Welcome page for unauthenticated users */}
+        <Route path="/" element={<Welcome />} />
         {/* Auth routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
