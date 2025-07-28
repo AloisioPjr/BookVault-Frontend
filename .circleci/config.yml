@@ -1,0 +1,27 @@
+version: 2.1
+
+jobs:
+  deploy-frontend:
+    docker:
+      - image: cimg/node:18.20.2
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:7kBg5C/ATWfihqFyqK54rA/Uou0eBaG814/vI144JiU"
+      - run:
+          name: Deploy React frontend to EC2
+          command: |
+            ssh -o StrictHostKeyChecking=no ubuntu@44.213.20.112 \<< 'EOF'
+              cd ~/BookVault-Frontend
+              git pull origin main
+              export VITE_API_BASE_URL=http://44.213.20.112/api/v1
+              npm install
+              npm run build
+              sudo systemctl restart nginx
+            EOF
+
+workflows:
+  version: 2
+  deploy_on_push:
+    jobs:
+      - deploy-frontend
