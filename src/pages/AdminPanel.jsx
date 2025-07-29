@@ -82,7 +82,7 @@ const AdminPanel = () => {
   return (
     <div className="d-flex justify-content-center mt-5 pt-4">
       <div className="container" style={{ maxWidth: "960px" }}>
-        <h2 className="mb-4 fw-bold text-center">Admin Panel – Book Management</h2>
+        <h2 className="mb-4 fw-bold text-center">Admin Panel — Book Management</h2>
 
         {/* Book Form */}
         <form onSubmit={handleSubmit} className="mb-5 row g-3">
